@@ -12,6 +12,7 @@ const path = require('path');
 const { readEnv } = require('read-env');
 const shortid = require('shortid');
 const RemoteJobConnector = require('./connector');
+const axios = require("axios");
 
 const {
     procfs,
@@ -20,6 +21,14 @@ const {
 
 const handlerId = shortid.generate();
 
+async function pushToGateway(id, key, value) {
+    axios.post(process.env.HF_VAR_PUSHGATEWAY + `/metrics/job/${id}`, `${key} ${value}\n`, {headers: {"Content-type": "text/plain"}})
+        .then(res => {
+            console.log(res.code);
+            console.log(res);
+        })
+        .catch(error => {console.log(error)})
+}
 
 /* 
 ** Function handleJob
@@ -99,6 +108,7 @@ async function handleJob(taskId, rcl) {
                 ioInfo.pid = pid;
                 ioInfo.name = jm["name"];
                 logger.info("IO:", JSON.stringify(ioInfo));
+                pushToGateway(taskId, "IO", 25);
                 setTimeout(() => logProcIO(pid), probeInterval);
             } catch (error) {
                 if (error.code === ProcfsError.ERR_NOT_FOUND) {
@@ -173,7 +183,7 @@ async function handleJob(taskId, rcl) {
                 then(data => {
                     sysinfo.mem = data;
                 }).
-                then(data => logger.info("Sysinfo:", JSON.stringify(sysinfo))).
+                then(data => logger.info("Sysinfo:", JSON.stringify(sysinfo)) ).
                 catch(err => console.err(error));
 
             //console.log(Date.now(), 'job started');
