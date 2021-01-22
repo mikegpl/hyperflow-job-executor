@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mikegpl/hyperflow-job-executor"
+    "url": "git+https://github.com/mikegpl/hyperflow-job-executor.git"
   },
   "dependencies": {
     "@stroncium/procfs": "^1.0.0",
@@ -21,5 +21,15 @@
     "redis": "^2.8.0",
     "shortid": "^2.2.15",
     "systeminformation": "^4.27.11"
-  }
+  },
+  "description": "![GitHub tag (latest SemVer pre-release)](https://img.shields.io/github/v/tag/hyperflow-wms/hyperflow-job-executor?include_prereleases&sort=date)",
+  "bugs": {
+    "url": "https://github.com/mikegpl/hyperflow-job-executor/issues"
+  },
+  "homepage": "https://github.com/mikegpl/hyperflow-job-executor#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mikegpl x hyperflow-wms"
 }
