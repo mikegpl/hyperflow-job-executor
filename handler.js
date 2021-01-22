@@ -25,7 +25,9 @@ async function pushToGateway(id, json) {
     var keys = Object.keys(json);
     var message = "";
     keys.forEach(key => {
-        message += `${key} ${json[key]}\n`
+        if(Number(json[key]) == json[key]) {
+            message += `${key} ${json[key]}\n`
+        }
     });
     axios.post(process.env.HF_VAR_PUSHGATEWAY + `/metrics/job/${id}`, message, {headers: {"Content-type": "text/plain"}})
         .then(res => {
