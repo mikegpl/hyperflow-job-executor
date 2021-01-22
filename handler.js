@@ -22,6 +22,8 @@ const {
 const handlerId = shortid.generate();
 
 async function pushToGateway(id, key, value) {
+    console.log("THIS IS NOT A DRILL ")
+    console.log(process.env)
     axios.post(process.env.HF_VAR_PUSHGATEWAY + `/metrics/job/${id}`, `${key} ${value}\n`, {headers: {"Content-type": "text/plain"}})
         .then(res => {
             console.log(res.code);
