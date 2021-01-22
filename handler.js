@@ -22,7 +22,7 @@ const {
 const handlerId = shortid.generate();
 
 async function pushToGateway(id, json) {
-    var keys = Object.keys(yourObject);
+    var keys = Object.keys(json);
     var message = "";
     keys.forEach(key => {
         message += `${key} ${json[key]}\n`
