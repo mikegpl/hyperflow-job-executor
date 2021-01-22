@@ -21,10 +21,13 @@ const {
 
 const handlerId = shortid.generate();
 
-async function pushToGateway(id, key, value) {
-    console.log("THIS IS NOT A DRILL ")
-    console.log(process.env)
-    axios.post(process.env.HF_VAR_PUSHGATEWAY + `/metrics/job/${id}`, `${key} ${value}\n`, {headers: {"Content-type": "text/plain"}})
+async function pushToGateway(id, json) {
+    var keys = Object.keys(yourObject);
+    var message = "";
+    keys.forEach(key => {
+        message += `${key} ${json[key]}\n`
+    });
+    axios.post(process.env.HF_VAR_PUSHGATEWAY + `/metrics/job/${id}`, message, {headers: {"Content-type": "text/plain"}})
         .then(res => {
             console.log(res.code);
             console.log(res);
@@ -110,7 +113,7 @@ async function handleJob(taskId, rcl) {
                 ioInfo.pid = pid;
                 ioInfo.name = jm["name"];
                 logger.info("IO:", JSON.stringify(ioInfo));
-                pushToGateway(taskId, "IO", 25);
+                pushToGateway(taskId, ioInfo);
                 setTimeout(() => logProcIO(pid), probeInterval);
             } catch (error) {
                 if (error.code === ProcfsError.ERR_NOT_FOUND) {
